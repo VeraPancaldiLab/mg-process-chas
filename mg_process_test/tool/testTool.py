@@ -58,14 +58,16 @@ class testTool(Tool):  # pylint: disable=invalid-name
         self.configuration.update(configuration)
 
     @task(returns=bool, file_in_loc=FILE_IN, file_out_loc=FILE_OUT, isModifier=False)
-    def test_writer(self, file_in_loc, file_out_loc):  # pylint: disable=no-self-use
+    def test_writer(self, matrix_file, features_file, file_out_loc):  # pylint: disable=no-self-use
         """
         Count the number of characters in a file and return a file with the count
 
         Parameters
         ----------
-        file_in_loc : str
-            Location of the input file
+        matrix_file: str
+            Location of the input matrix file
+        feaures_file: str
+            Location of the input features file
         file_out_loc : str
             Location of an output file
 
@@ -74,16 +76,18 @@ class testTool(Tool):  # pylint: disable=invalid-name
         bool
             Writes to the file, which is returned by pyCOMPSs to the defined location
         """
-        try:
-            with open(file_in_loc, "r") as f_in:
-                with open(file_out_loc, "w") as file_handle:
-                    char_count = 0
-                    for line in f_in:
-                        char_count += len(line)
 
-                    file_handle.write("There are " + str(char_count) + " chacaters the file")
-        except IOError as error:
-            logger.fatal("I/O error({0}): {1}".format(error.errno, error.strerror))
+        from subprocess import call
+
+        try:
+            cmd = 'ChAs/ChAs.sh ' + matrix_file + ' ' + features_file + ' > ' + file_out_loc
+            retval = call(cmd, shell=True)
+        except Exception as error:
+            logger.fatal("error({0})".format(error))
+            return False
+
+        if retval != 0:
+            logger.fatal("return value: ({0})".format(retval))
             return False
 
         return True
@@ -110,7 +114,8 @@ class testTool(Tool):  # pylint: disable=invalid-name
         """
 
         results = self.test_writer(
-            input_files["input"],
+            input_files["matrix"],
+            input_files["features"],
             output_files["output"]
         )
         results = compss_wait_on(results)
@@ -124,8 +129,8 @@ class testTool(Tool):  # pylint: disable=invalid-name
                 data_type="<data_type>",
                 file_type="txt",
                 file_path=output_files["output"],
-                sources=[input_metadata["input"].file_path],
-                taxon_id=input_metadata["input"].taxon_id,
+                sources=[input_metadata["matrix"].file_path, input_metadata["features"].file_path],
+                taxon_id=input_metadata["matrix"].taxon_id,
                 meta_data={
                     "tool": "testTool"
                 }

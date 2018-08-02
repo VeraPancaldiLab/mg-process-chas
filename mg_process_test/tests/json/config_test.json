@@ -3,8 +3,14 @@
         {
             "required": true,
             "allow_multiple": false,
-            "name": "input",
-            "value": "unique_file_id"
+            "name": "matrix",
+            "value": "matrix_id"
+        },
+        {
+            "required": true,
+            "allow_multiple": false,
+            "name": "features",
+            "value": "features_id"
         }
     ],
     "arguments": [
@@ -29,7 +35,7 @@
                     "tool": "testTool",
                     "description": "Output"
                 },
-                "file_path": "tests/data/test.txt",
+                "file_path": "testing_data/output.txt",
                 "data_type": "text",
                 "compressed": ""
             }

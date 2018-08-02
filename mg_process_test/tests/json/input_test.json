@@ -1,16 +1,28 @@
 [
     {
         "compressed": 0,
-        "_id": "unique_file_id",
+        "_id": "matrix_id",
         "data_type": "text",
-        "file_type": "bam",
-        "file_path": "tests/data/test_input.txt",
+        "file_type": "txt",
+        "file_path": "testing_data/matrix.txt",
         "sources": [],
         "taxon_id": 9606,
         "meta_data": {
             "visible": true,
-            "validated": 1,
-            "assembly": "GCA_000001405.22"
+            "validated": 1
+        }
+    },
+    {
+        "compressed": 0,
+        "_id": "features_id",
+        "data_type": "text",
+        "file_type": "txt",
+        "file_path": "testing_data/features.txt",
+        "sources": [],
+        "taxon_id": 9606,
+        "meta_data": {
+            "visible": true,
+            "validated": 1
         }
     }
 ]
