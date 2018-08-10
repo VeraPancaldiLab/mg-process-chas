@@ -80,7 +80,7 @@ class testTool(Tool):  # pylint: disable=invalid-name
         from subprocess import call
 
         try:
-            cmd = 'ChAs/ChAs.sh ' + matrix_file + ' ' + features_file + ' > ' + file_out_loc
+            cmd = ' '.join(['Rscript ChAs/ChAs_basic.R', matrix_file, features_file, file_out_loc])
             retval = call(cmd, shell=True)
         except Exception as error:
             logger.fatal("error({0})".format(error))

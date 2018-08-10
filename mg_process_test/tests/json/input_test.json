@@ -4,7 +4,7 @@
         "_id": "matrix_id",
         "data_type": "text",
         "file_type": "txt",
-        "file_path": "testing_data/matrix.txt",
+        "file_path": "testing_data/PCHiC_interaction_map.txt",
         "sources": [],
         "taxon_id": 9606,
         "meta_data": {
@@ -17,7 +17,7 @@
         "_id": "features_id",
         "data_type": "text",
         "file_type": "txt",
-        "file_path": "testing_data/features.txt",
+        "file_path": "testing_data/Features_mESC.txt",
         "sources": [],
         "taxon_id": 9606,
         "meta_data": {
