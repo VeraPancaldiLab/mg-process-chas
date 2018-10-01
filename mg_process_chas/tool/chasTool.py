@@ -40,7 +40,7 @@ from basic_modules.metadata import Metadata
 # ------------------------------------------------------------------------------
 
 
-class testTool(Tool):  # pylint: disable=invalid-name
+class chasTool(Tool):  # pylint: disable=invalid-name
     """
     Tool for writing to a file
     """
@@ -132,7 +132,7 @@ class testTool(Tool):  # pylint: disable=invalid-name
                 sources=[input_metadata["matrix"].file_path, input_metadata["features"].file_path],
                 taxon_id=input_metadata["matrix"].taxon_id,
                 meta_data={
-                    "tool": "testTool"
+                    "tool": "chasTool"
                 }
             )
         }

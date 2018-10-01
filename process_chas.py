@@ -23,12 +23,12 @@ import argparse
 from basic_modules.workflow import Workflow
 from utils import logger
 
-from mg_process_test.tool.testTool import testTool
+from mg_process_chas.tool.chasTool import chasTool
 
 # ------------------------------------------------------------------------------
 
 
-class process_test(Workflow):
+class process_chas(Workflow):
     """
     Functions for demonstrating the pipeline set up.
     """
@@ -73,7 +73,7 @@ class process_test(Workflow):
         """
 
         # Initialise the test tool
-        tt_handle = testTool(self.configuration)
+        tt_handle = chasTool(self.configuration)
         tt_files, tt_meta = tt_handle.run(input_files, metadata, output_files)
 
         return (tt_files, tt_meta)
@@ -93,7 +93,7 @@ def main_json(config, in_metadata, out_metadata):
     logger.info("1. Instantiate and launch the App")
     from apps.jsonapp import JSONApp
     app = JSONApp()
-    result = app.launch(process_test,
+    result = app.launch(process_chas,
                         config,
                         in_metadata,
                         out_metadata)

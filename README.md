@@ -1,4 +1,4 @@
-# mg-process-test for [ChAs](https://github.com/ricolab/Chromatin_Assortativity/)
+# mg-process-chas for [ChAs](https://github.com/ricolab/Chromatin_Assortativity/)
 
 # Table Of Content
 
@@ -28,4 +28,4 @@ pip install -r requirements.txt
 
 # Usage
 
-`./process_test.py --config mg_process_test/tests/json/config_test.json --in_metadata mg_process_test/tests/json/input_test.json --out_metadata metadata.txt`
+`./process_chas.py --config mg_process_chas/tests/json/config_chas.json --in_metadata mg_process_chas/tests/json/input_test.json --out_metadata metadata.txt`

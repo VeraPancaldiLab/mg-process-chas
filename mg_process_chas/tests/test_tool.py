@@ -21,17 +21,17 @@ import os.path
 import pytest
 
 from basic_modules.metadata import Metadata
-from mg_process_test.tool.testTool import testTool
+from mg_process_test.tool.chasTool import chasTool
 
 
-@pytest.mark.testTool
-def test_testTool():
+@pytest.mark.chasTool
+def test_chasTool():
     """
     Test case to ensure that the testTool works.
 
     .. code-block:: none
 
-       pytest tests/test_tool.py
+       pytest tests/chas_tool.py
     """
     resource_path = os.path.join(os.path.dirname(__file__), "data/")
 
@@ -50,7 +50,7 @@ def test_testTool():
         )
     }
 
-    tt_handle = testTool()
+    tt_handle = chasTool()
     tt_handle.run(input_files, metadata, output_files)
 
     assert os.path.isfile(output_files["output"]) is True
