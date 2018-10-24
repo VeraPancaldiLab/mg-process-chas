@@ -77,17 +77,42 @@ class chasTool(Tool):  # pylint: disable=invalid-name
             Writes to the file, which is returned by pyCOMPSs to the defined location
         """
 
-        from subprocess import call
+        from subprocess import check_output, CalledProcessError
 
         try:
-            cmd = ' '.join(['Rscript ChAs/ChAs_basic.R', matrix_file, features_file, file_out_loc])
-            retval = call(cmd, shell=True)
-        except Exception as error:
-            logger.fatal("error({0})".format(error))
-            return False
+            with open(file_out_loc,'w') as results_file:
+                # Run ChAs for all the network
+                cmd = ' '.join(['Rscript ChAs/ChAs_basic.R', matrix_file, features_file])
+                output = check_output(cmd, shell=True)
+                header, values = output.rstrip().split('\n')
+                # Move header one colum to right
+                header = header.split('\t')
+                header.insert(0,'')
+                # Insert chromosome number as the first column value, in this case 'ALL'
+                values = values.split('\t')
+                values[0] = 'ALL'
 
-        if retval != 0:
-            logger.fatal("return value: ({0})".format(retval))
+                results_file.write('\t'.join(header))
+                results_file.write('\n')
+                results_file.write('\t'.join(values))
+                results_file.write('\n')
+
+                # Chromosome list
+                chromosomes = list(map(lambda c: str(c), list(range(1, 20))))
+                chromosomes += ['X', 'Y']
+                for chromosome in chromosomes:
+                    cmd = ' '.join(['Rscript ChAs/ChAs_basic.R', matrix_file, features_file, chromosome])
+                    output = check_output(cmd, shell=True)
+                    header, values = output.rstrip().split('\n')
+                    values = values.split('\t')
+                    # Use the chromosome number as the first value of the row
+                    values[0] = chromosome
+                    results_file.write('\t'.join(values))
+                    if chromosome != 'Y':
+                        results_file.write('\n')
+
+        except CalledProcessError as error:
+            logger.fatal("error({0})".format(error))
             return False
 
         return True

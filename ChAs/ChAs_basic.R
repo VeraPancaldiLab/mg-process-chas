@@ -2,17 +2,24 @@
 # Divide network into promoter - promoter and promoter - other end networks
 # calculate assortativity of features in networks
 
-library("igraph")
-library("GenomicRanges")
+suppressPackageStartupMessages(library("igraph"))
+suppressPackageStartupMessages(library("GenomicRanges"))
 #library("tidyverse")
 #file.edit("/data/Projects/kat/Projects/Assortativity/ChAs_collated.R")
 
-# Load file args from MuG wrapper
+# Load file args from MuG wrapper (map, features, [chromosome])
 args = commandArgs(trailingOnly=TRUE)
 
 # Load mESC PHiC interaction map
 # PCHiC_map <- read.table(file = "../testing_data/PCHiC_interaction_map.txt", header = TRUE, sep = "\t")
 PCHiC_map <- read.table(file = args[1], header = TRUE, sep = "\t")
+
+# Check if a specific chromosome was passed to the args at the last position
+if (length(args) == 3) {
+  selected_chromosome <- args[3]
+  PCHiC_map <- PCHiC_map[which(PCHiC_map$baitChr == selected_chromosome & PCHiC_map$oeChr == selected_chromosome),]
+}
+
 
 # Concatenate "chr" onto chromosome numbers only if not present already
 PCHiC_map$baitChr <- paste("chr", PCHiC_map$baitChr, sep = "")
@@ -83,7 +90,8 @@ ass_PCHiC_POE <- calc_assort(PCHiC_POE, agchic)
 ####Output
 #start with ass_PCHiC_all
 
-write.table(ass_PCHiC_all, args[3], sep="\t", col.names=T)
+# write.table(ass_PCHiC_all, args[3], sep="\t", col.names=T)
+write.table(ass_PCHiC_all, file="", sep="\t", col.names=T)
 
 
 # ########################################################################For next version
