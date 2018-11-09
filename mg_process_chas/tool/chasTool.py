@@ -58,7 +58,7 @@ class chasTool(Tool):  # pylint: disable=invalid-name
         self.configuration.update(configuration)
 
     @task(returns=bool, file_in_loc=FILE_IN, file_out_loc=FILE_OUT, isModifier=False)
-    def test_writer(self, matrix_file, features_file, file_out_loc):  # pylint: disable=no-self-use
+    def test_writer(self, matrix_file, features_file, file_out_loc, file_out_targz):  # pylint: disable=no-self-use
         """
         Count the number of characters in a file and return a file with the count
 
@@ -80,9 +80,13 @@ class chasTool(Tool):  # pylint: disable=invalid-name
         from subprocess import check_output, CalledProcessError
 
         try:
+            import os
+            tool_path = os.path.dirname(os.path.abspath(__file__))
+            print('Rscript '+ tool_path + '/../../ChAs/ChAs_basic.R')
             with open(file_out_loc,'w') as results_file:
                 # Run ChAs for all the network
-                cmd = ' '.join(['Rscript ChAs/ChAs_basic.R', matrix_file, features_file])
+                logger.info('Processing all chromosomes together first')
+                cmd = ' '.join(['Rscript '+ tool_path + '/../../ChAs/ChAs_basic.R', matrix_file, features_file])
                 output = check_output(cmd, shell=True)
                 header, values = output.rstrip().split('\n')
                 # Move header one colum to right
@@ -101,7 +105,8 @@ class chasTool(Tool):  # pylint: disable=invalid-name
                 chromosomes = list(map(lambda c: str(c), list(range(1, 20))))
                 chromosomes += ['X', 'Y']
                 for chromosome in chromosomes:
-                    cmd = ' '.join(['Rscript ChAs/ChAs_basic.R', matrix_file, features_file, chromosome])
+                    logger.info('Processing chromosome ' + chromosome)
+                    cmd = ' '.join(['Rscript '+ tool_path + '/../../ChAs/ChAs_basic.R', matrix_file, features_file, chromosome])
                     output = check_output(cmd, shell=True)
                     header, values = output.rstrip().split('\n')
                     values = values.split('\t')
@@ -110,6 +115,9 @@ class chasTool(Tool):  # pylint: disable=invalid-name
                     results_file.write('\t'.join(values))
                     if chromosome != 'Y':
                         results_file.write('\n')
+
+            logger.info('Tar the output results')
+            check_output("tar cf " + file_out_targz + " -C " + self.configuration['execution'] + " $(basename " + file_out_loc + ")" , shell=True)
 
         except CalledProcessError as error:
             logger.fatal("error({0})".format(error))
@@ -137,11 +145,14 @@ class chasTool(Tool):  # pylint: disable=invalid-name
         output_metadata : dict
             List of matching metadata for the returned files
         """
+	if not output_files["output"]:
+            output_files["output"] = self.configuration['execution'] + '/dinamic_name.tsv'
 
         results = self.test_writer(
             input_files["matrix"],
             input_files["features"],
-            output_files["output"]
+            output_files["output"],
+            output_files["output_tar"]
         )
         results = compss_wait_on(results)
 
@@ -151,13 +162,23 @@ class chasTool(Tool):  # pylint: disable=invalid-name
 
         output_metadata = {
             "output": Metadata(
-                data_type="<data_type>",
-                file_type="txt",
+                #data_type="<data_type>",
+                #file_type="txt",
                 file_path=output_files["output"],
                 sources=[input_metadata["matrix"].file_path, input_metadata["features"].file_path],
                 taxon_id=input_metadata["matrix"].taxon_id,
                 meta_data={
-                    "tool": "chasTool"
+                    "tool": "ChAs"
+                }
+            ),
+            "output_tar": Metadata(
+                #data_type="<data_type>",
+                #file_type="txt",
+                file_path=output_files["output"],
+                sources=[input_metadata["matrix"].file_path, input_metadata["features"].file_path],
+                taxon_id=input_metadata["matrix"].taxon_id,
+                meta_data={
+                    "tool": "ChAs"
                 }
             )
         }

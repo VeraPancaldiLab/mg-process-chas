@@ -1,0 +1,60 @@
+[
+    {
+        "_id": "unique_file_id_5be543bb2ff381.76062655",
+        "file_path": "/home/pmes/mg-process-chas/testing_data/PCHiC_interaction_map_BAD.txt",
+        "file_type": "TSV",
+        "data_type": "data_chip_seq",
+        "compressed": 0,
+        "user_id": "user_id",
+        "creation_time": {
+            "sec": 1541751739,
+            "usec": 0
+        },
+        "taxon_id": "9606",
+        "meta_data": {
+            "type": "file",
+            "size": 0,
+            "project": "my_project_id",
+            "atime": {
+                "sec": 1541751739,
+                "usec": 0
+            },
+            "parentDir": "unique_file_id_5be543bb2ff619.49614263",
+            "lastAccess": {
+                "sec": 1541751739,
+                "usec": 0
+            },
+            "taxon_id": "9606"
+        },
+        "sources": []
+    },
+    {
+        "_id": "unique_file_id_5be543bb2ff878.45689176",
+        "file_path": "/home/pmes/mg-process-chas/testing_data/Features_mESC.txt",
+        "file_type": "TSV",
+        "data_type": "data_chip_seq",
+        "compressed": 0,
+        "user_id": "user_id",
+        "creation_time": {
+            "sec": 1541751739,
+            "usec": 0
+        },
+        "taxon_id": "9606",
+        "meta_data": {
+            "type": "file",
+            "size": 0,
+            "project": "my_project_id",
+            "atime": {
+                "sec": 1541751739,
+                "usec": 0
+            },
+            "parentDir": "unique_file_id_5be543bb2ffaf3.24300251",
+            "lastAccess": {
+                "sec": 1541751739,
+                "usec": 0
+            },
+            "taxon_id": "9606"
+        },
+        "sources": []
+    }
+]

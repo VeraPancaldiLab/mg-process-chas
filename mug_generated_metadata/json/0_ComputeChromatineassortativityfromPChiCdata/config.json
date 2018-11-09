@@ -1,0 +1,56 @@
+{
+    "input_files": [
+        {
+            "name": "matrix",
+            "value": "unique_file_id_5be543bb2fe808.87903353",
+            "required": true,
+            "allow_multiple": false
+        },
+        {
+            "name": "features",
+            "value": "unique_file_id_5be543bb2ff878.45689176",
+            "required": true,
+            "allow_multiple": false
+        }
+    ],
+    "arguments": [
+        {
+            "name": "execution",
+            "value": "/tmp/run000"
+        },
+        {
+            "name": "project",
+            "value": "my_project_id"
+        }
+    ],
+    "output_files": [
+        {
+            "name": "output",
+            "required": true,
+            "allow_multiple": false,
+            "file": {
+                "file_type": "TSV",
+                "data_type": "sequence_annotation",
+                "meta_data": {
+                    "visible": true,
+                    "description": "Here goes a short description of what this output file contains"
+                }
+            }
+        },
+        {
+            "name": "output_tar",
+            "required": true,
+            "allow_multiple": false,
+            "file": {
+                "file_type": "TAR",
+                "data_type": "tool_statistics",
+                "file_path": "/tmp/run000/output.tar.gz",
+                "compressed": "gzip",
+                "meta_data": {
+                    "visible": false,
+                    "description": "Here goes a short description of what this output file contains"
+                }
+            }
+        }
+    ]
+}
